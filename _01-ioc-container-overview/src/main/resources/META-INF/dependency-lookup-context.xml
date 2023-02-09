@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="user" class="com.fulu.domain.User">
+        <property name="name" value="fulu"/>
+        <property name="age" value="123"/>
+    </bean>
+
+    <bean id="superUser" class="com.fulu.domain.SuperUser" parent="user" primary="true">
+        <property name="address" value="杭州"/>
+    </bean>
+
+    <!-- more bean definitions go here -->
+    <bean id="objectFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+        <property name="targetBeanName" value="user"/>
+    </bean>
+</beans>
