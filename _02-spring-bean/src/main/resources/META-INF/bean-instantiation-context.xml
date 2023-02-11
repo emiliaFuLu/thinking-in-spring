@@ -15,5 +15,7 @@
 
     <bean id="userFactory" class="com.fulu.bean.factory.DefaultUserFactory"/>
 
+    <!--  FactoryBean实例化  -->
+    <bean id="user-by-factory-bean" class="com.fulu.bean.factory.UserFactoryBean"/>
 
 </beans>
