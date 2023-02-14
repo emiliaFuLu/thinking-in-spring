@@ -9,6 +9,7 @@
         <module>java-beans-demo</module>
         <module>_01-ioc-container-overview</module>
         <module>_02-spring-bean</module>
+        <module>_03-dependency-lookup</module>
     </modules>
     <packaging>pom</packaging>
 
