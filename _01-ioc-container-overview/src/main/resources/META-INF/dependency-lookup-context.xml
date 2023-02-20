@@ -9,6 +9,15 @@
     <bean id="user" class="com.fulu.domain.User">
         <property name="name" value="fulu"/>
         <property name="age" value="123"/>
+        <property name="city" value="HANGZHOU"/>
+        <property name="workCities" value="BEIJING,SHANGHAI"/>
+        <property name="liveCities">
+            <list>
+                <value>BEIJING</value>
+                <value>HANGZHOU</value>
+            </list>
+        </property>
+        <property name="configFileLocation" value="classpath:/MATE-INF/config-file-location.xml"/>
     </bean>
 
     <bean id="superUser" class="com.fulu.domain.SuperUser" parent="user" primary="true">
