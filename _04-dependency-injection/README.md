@@ -48,4 +48,22 @@
     - 使用 API ObjectProvider 延迟注入 （推荐）
         - 单一类型
         - 集合类型
-11. 
+11. 依赖处理流程
+    - DefaultListableBeanFactory#resolveDependency() 
+    - 单一注入处理 findAutowireCandidates()
+    - 集合注入处理 resolveMultipleBeans()
+12. @Autowired注解的处理流程
+```sequence
+title: @Autowired注解处理流程
+AutowiredAnnotationBeanPostProcessor -> AutowiredAnnotationBeanPostProcessor :postProcessMergedBeanDefinition()查找合并构建数据
+AutowiredAnnotationBeanPostProcessor -> AutowiredAnnotationBeanPostProcessor : buildAutowiringMetadata()构建元信息
+AutowiredAnnotationBeanPostProcessor -> AutowiredAnnotationBeanPostProcessor : postProcessProperties()进行依赖注入
+AutowiredAnnotationBeanPostProcessor -> InjectionMetadata : inject()对象赋值
+InjectionMetadata -> DefaultListableBeanFactory : inject()对象赋值
+DefaultListableBeanFactory -> DefaultListableBeanFactory : doResolveDependency()对象赋值
+DefaultListableBeanFactory -> DefaultListableBeanFactory : resolveMultipleBeans()集合对象赋值
+DefaultListableBeanFactory -> DefaultListableBeanFactory : resolveDependency()单一对象赋值
+DefaultListableBeanFactory -> DependencyDescriptor : resolveCandidate() 对象初始化、实例化
+```
+
+13. 自定义注解
