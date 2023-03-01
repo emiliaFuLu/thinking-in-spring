@@ -9,13 +9,15 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>_04-dependency-injection</artifactId>
+    <artifactId>_05-dependency-source</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
@@ -23,14 +25,5 @@
             <version>${version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/javax.inject/javax.inject -->
-        <!--   JSR 303 API     -->
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
-        </dependency>
-
     </dependencies>
-
 </project>

@@ -11,6 +11,7 @@
         <module>_02-spring-bean</module>
         <module>_03-dependency-lookup</module>
         <module>_04-dependency-injection</module>
+        <module>_05-dependency-source</module>
     </modules>
     <packaging>pom</packaging>
 
