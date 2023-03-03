@@ -1,0 +1,1 @@
+在 bean 是在初始化的时候进行依赖注入的   通过 AbstractAutowireCapableBeanFactory#populateBean() 方法

@@ -37,6 +37,8 @@ public class AnnotationDependencySetterInjectionDemo {
 
     @Bean
     private UserHolder userHolder(User user) {
-        return new UserHolder(user);
+        UserHolder userHolder = new UserHolder();
+        userHolder.setUser(user);
+        return userHolder;
     }
 }
