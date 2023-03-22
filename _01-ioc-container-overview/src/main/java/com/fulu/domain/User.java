@@ -1,8 +1,11 @@
 package com.fulu.domain;
 
 import com.fulu.ENUM.City;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.core.io.Resource;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,7 +13,9 @@ import java.util.List;
  * @author fulu
  * {@code @date} 2023年01月09日 22:57
  */
-public class User {
+public class User implements BeanNameAware {
+
+    private Long id;
     private String name;
     private Integer age;
 
@@ -27,6 +32,7 @@ public class User {
      * Spring 类型注入
      */
     private Resource configFileLocation;
+    private transient String beanName;
 
     public String getName() {
         return name;
@@ -38,6 +44,14 @@ public class User {
 
     public Integer getAge() {
         return age;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setAge(Integer age) {
@@ -79,7 +93,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
                 ", city=" + city +
                 ", workCities=" + Arrays.toString(workCities) +
@@ -93,6 +108,21 @@ public class User {
         user.setName("fulu");
         user.setAge(13);
         return user;
+    }
+
+    @PostConstruct
+    private void init() {
+        System.out.println("User Bean [" + beanName + "] 初始化...");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("User Bean [" + beanName + "] 销毁...");
+    }
+
+    @Override
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
     }
 }
     
