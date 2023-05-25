@@ -2,24 +2,25 @@ package bean.lifecycle;
 
 import com.fulu.domain.User;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.EncodedResource;
 
 /**
- * Bean 元信息配置(面向资源 BeanDefinition 解析)
+ * BeanDefinition 合并实例
  *
- * @author fulu
- * @since 2023年03月22日 23:44
- **/
-public class BeanMetadataConfigurationDemo {
-
+ * @author <a href="mailto:fulurjj@gmail.com">FuLu</a >
+ * @since 2023/4/20 23:01
+ */
+public class MergedBeanDefinitionDemo {
     public static void main(String[] args) {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-        // 实例化基于 Properties 资源 BeanDefinitionReader 的实现
-        PropertiesBeanDefinitionReader beanDefinitionReader = new PropertiesBeanDefinitionReader(beanFactory);
-        String location = "META-INF/user.properties";
+
+        // 基于 XML 资源 BeanDefinitionReader 实现
+        XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
+
+        String location = "META-INF/dependency-lookup-context.xml";
         // 基于 Classpath 加载 properties 资源
 
         Resource resource = new ClassPathResource(location);
@@ -30,6 +31,7 @@ public class BeanMetadataConfigurationDemo {
         User user = beanFactory.getBean("user", User.class);
         System.out.println("user = " + user);
 
-
+        User superUser = beanFactory.getBean("superUser", User.class);
+        System.out.println("user = " + superUser);
     }
 }

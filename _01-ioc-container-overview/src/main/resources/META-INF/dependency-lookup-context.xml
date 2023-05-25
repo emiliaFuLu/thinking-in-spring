@@ -6,6 +6,8 @@
         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
+    <!-- Root BeanDefinition 不需要合并，不存在parent -->
+    <!-- 普通的beanDefinition GenericBeanDefinition -->
     <bean id="user" class="com.fulu.domain.User">
         <property name="name" value="fulu"/>
         <property name="age" value="123"/>
@@ -20,6 +22,7 @@
         <property name="configFileLocation" value="classpath:/MATE-INF/config-file-location.xml"/>
     </bean>
 
+    <!-- 普通的beanDefinition GenericBeanDefinition -->
     <bean id="superUser" class="com.fulu.domain.SuperUser" parent="user" primary="true">
         <property name="address" value="杭州"/>
     </bean>

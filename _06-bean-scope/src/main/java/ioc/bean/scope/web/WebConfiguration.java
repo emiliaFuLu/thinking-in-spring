@@ -16,7 +16,7 @@
  */
 package ioc.bean.scope.web;
 
-import org.geekbang.thinking.in.spring.ioc.overview.domain.User;
+import com.fulu.domain.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.annotation.ApplicationScope;

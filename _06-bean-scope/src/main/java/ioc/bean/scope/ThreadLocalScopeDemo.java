@@ -16,7 +16,7 @@
  */
 package ioc.bean.scope;
 
-import org.geekbang.thinking.in.spring.ioc.overview.domain.User;
+import com.fulu.domain.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
