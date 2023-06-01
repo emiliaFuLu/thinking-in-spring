@@ -3,13 +3,11 @@ package bean.lifecycle;
 import com.fulu.domain.SuperUser;
 import com.fulu.domain.User;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.EncodedResource;
 import org.springframework.util.ObjectUtils;
 
 /**
@@ -37,7 +35,7 @@ public class BeanInstantiationLifecycleDemo {
         System.out.println("user = " + user);
 
         User superUser = beanFactory.getBean("superUser", User.class);
-        System.out.println("user = " + superUser);
+        System.out.println("superUser = " + superUser);
 
         Employ employ = beanFactory.getBean("employ", Employ.class);
         System.out.println("employ = " + employ);
@@ -55,6 +53,26 @@ public class BeanInstantiationLifecycleDemo {
                 return new SuperUser();
             }
             return null; // 保持 Spring IoC 容器的实例化操作
+        }
+
+        @Override
+        public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+            if (ObjectUtils.nullSafeEquals("user", beanName) && User.class.equals(bean.getClass())) {
+                // user 对象不允许属性赋值（填入）（配置元信息 -> 属性值）
+                User user = (User) bean;
+                user.setName("xiaowang");
+                return false;
+            }
+            return true;
+        }
+
+        // user 是跳过 Bean 属性赋值（填入）
+        // superUser 也是完全跳过 Bean 实例化（Bean 属性赋值（填入））
+        // userHolder
+        @Override
+        public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+
+            return null;
         }
     }
 
