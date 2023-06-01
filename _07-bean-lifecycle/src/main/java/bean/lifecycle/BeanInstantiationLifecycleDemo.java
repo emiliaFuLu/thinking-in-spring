@@ -3,6 +3,7 @@ package bean.lifecycle;
 import com.fulu.domain.SuperUser;
 import com.fulu.domain.User;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -21,16 +22,15 @@ public class BeanInstantiationLifecycleDemo {
 
     public static void main(String[] args) {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-
+        beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
+//        beanFactory.addBeanPostProcessor(new MyBeanPostProcessor());
+//        beanFactory.addBeanPostProcessor(new MyBeanPostProcessor2());
         // 基于 XML 资源 BeanDefinitionReader 实现
         XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
-        String location = "META-INF/dependency-lookup-context.xml";
+        String[] locations = {"META-INF/dependency-lookup-context.xml", "META-INF/bean-construct-dependency-injection.xml"};
         // 基于 Classpath 加载 properties 资源
-
-        Resource resource = new ClassPathResource(location);
-        EncodedResource encodedResource = new EncodedResource(resource, "UTF-8");
-        int definitions = beanDefinitionReader.loadBeanDefinitions(encodedResource);
+        int definitions = beanDefinitionReader.loadBeanDefinitions(locations);
         System.out.println("已加载的资源数量：" + definitions);
         // 通过 Bean Id 和 类型进行查找依赖
         User user = beanFactory.getBean("user", User.class);
@@ -38,6 +38,13 @@ public class BeanInstantiationLifecycleDemo {
 
         User superUser = beanFactory.getBean("superUser", User.class);
         System.out.println("user = " + superUser);
+
+        Employ employ = beanFactory.getBean("employ", Employ.class);
+        System.out.println("employ = " + employ);
+
+        UserHolder userHolder = beanFactory.getBean("userHolder", UserHolder.class);
+        System.out.println("userHolder = " + userHolder);
+
     }
 
     static class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
@@ -46,6 +53,32 @@ public class BeanInstantiationLifecycleDemo {
             if (ObjectUtils.nullSafeEquals("superUser", beanName) && SuperUser.class.equals(beanClass)) {
                 // 把配置完成 superUser Bean 覆盖
                 return new SuperUser();
+            }
+            return null; // 保持 Spring IoC 容器的实例化操作
+        }
+    }
+
+    static class MyBeanPostProcessor implements BeanPostProcessor {
+        @Override
+        public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+            if (ObjectUtils.nullSafeEquals("user", beanName) && User.class.equals(bean.getClass())) {
+                User user = (User) bean;
+                user.setId(2L);
+                user.setName("BeanPostProcessor");
+                return user;
+            }
+            return null;
+        }
+    }
+
+    static class MyBeanPostProcessor2 implements BeanPostProcessor {
+        @Override
+        public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+            if (ObjectUtils.nullSafeEquals("user", beanName) && User.class.equals(bean.getClass())) {
+                User user = (User) bean;
+                user.setId(3L);
+                user.setName("BeanPostProcessor2");
+                return user;
             }
             return null; // 保持 Spring IoC 容器的实例化操作
         }
