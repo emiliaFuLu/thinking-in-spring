@@ -16,6 +16,9 @@ public class Employ {
         this.id = id;
     }
 
+    public Employ() {
+    }
+
     @Override
     public String toString() {
         return "Employ{" +
