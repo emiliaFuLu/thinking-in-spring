@@ -3,6 +3,7 @@ package bean.lifecycle;
 import com.fulu.domain.SuperUser;
 import com.fulu.domain.User;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
@@ -71,7 +72,17 @@ public class BeanInstantiationLifecycleDemo {
         // userHolder
         @Override
         public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
-
+            if (ObjectUtils.nullSafeEquals("userHolder", beanName) && UserHolder.class.equals(bean.getClass())) {
+                MutablePropertyValues mpv = new MutablePropertyValues();
+                mpv.addPropertyValues(pvs);
+                // 原始配置 <property name="number" value="1"/>
+                // 如果存在 <property name="number" value="2"/>
+                // 则 2 会覆盖 1
+                if (mpv.contains("number")) {
+                    mpv.addPropertyValue("number", "31");
+                }
+                 return mpv;
+            }
             return null;
         }
     }

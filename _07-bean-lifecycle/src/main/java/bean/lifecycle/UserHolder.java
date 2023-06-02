@@ -11,14 +11,25 @@ import com.fulu.domain.User;
 public class UserHolder {
     private final User user;
 
+    private Integer number;
+
     public UserHolder(User user) {
         this.user = user;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     @Override
     public String toString() {
         return "UserHolder{" +
                 "user=" + user +
+                ", number=" + number +
                 '}';
     }
 }
