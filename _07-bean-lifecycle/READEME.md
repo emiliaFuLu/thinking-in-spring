@@ -14,8 +14,18 @@
   - Spring 加载类的基础还是依赖于 Java 自身的类加载器 AppClassLoader，会涉及一些 Spring 安全控制，只不是大部分都是默认关闭的，所以我们忽略了，其中进行类加载时，还会使用一些临时的 ClassLoader，类初期的类型是 String 类型，在通过反射将类加载完成之后才会变称 Class 类型。
 - Spring 实例化前置
   - InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation(),可以在前置实例化方法中自定义对指定类的配置
-- Spring 实例化后置
-  - InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation(),这个方法实际上是指示这个bean是否要进行属性的填入
 - Spring 实例化
   - 根据是否有构造器参数，选择构造器实例化或者工厂方法实例化,如果有构造器参数，会先实例化构造器参数，然后再实例化 Bean
   - 同时也会根据注入类型进行不同的实例化操作
+- Spring 实例化后置
+  - InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation(),这个方法实际上是指示这个bean是否要进行属性的填入，如果有实现这个接口，Name就能够进行自定义属性填充。
+- Spring 属性填充 populateBean
+  - InstantiationAwareBeanPostProcessor#postProcessPropertyValues()
+  - InstantiationAwareBeanPostProcessor#postProcessProperties()
+    - Spring 5.1版本新加的，之前使用的是postProcessPropertyValues();
+- invokeAwareMethods 方法回调
+  - BeanNameAware -> BeanClassLoaderAware -> BeanFactoryAware
+- invokeAwareInterfaces 接口回调
+  - ApplicationContextAwareProcessor 在application初始化或者BeanFactory初始化的时候，会动态的添加到BeanPostProcessor中，然后在BeanPostProcessor#postProcessBeforeInitialization()方法中调用invokeAwareInterfaces()方法，这个方法会调用所有的Aware接口，然后将ApplicationContext注入到对应的接口中去。
+- Spring 初始化前置
+  - BeanPostProcessor#postProcessBeforeInitialization()

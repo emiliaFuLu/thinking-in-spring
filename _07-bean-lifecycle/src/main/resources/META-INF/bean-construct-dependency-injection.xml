@@ -7,6 +7,7 @@
 
     <bean id="userHolder" class="bean.lifecycle.UserHolder" autowire="constructor">
         <property name="number" value="1"/>
+        <property name="remark" value="第一次set"/>
     </bean>
 
     <bean id="employ" class="bean.lifecycle.Employ"/>
