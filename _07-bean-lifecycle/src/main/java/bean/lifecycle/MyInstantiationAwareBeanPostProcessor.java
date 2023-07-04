@@ -57,6 +57,26 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
         }
         return null;
     }
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        if (ObjectUtils.nullSafeEquals("userHolder", beanName) && UserHolder.class.equals(bean.getClass())) {
+            UserHolder userHolder = (UserHolder) bean;
+            ((UserHolder) bean).setRemark("the userHolder v3");
+            return userHolder;
+        }
+        return bean;
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        if (ObjectUtils.nullSafeEquals("userHolder", beanName) && UserHolder.class.equals(bean.getClass())) {
+            UserHolder userHolder = (UserHolder) bean;
+            ((UserHolder) bean).setRemark("the userHolder v7");
+            return userHolder;
+        }
+        return bean;
+    }
 }
 
 class MyBeanPostProcessor implements BeanPostProcessor {

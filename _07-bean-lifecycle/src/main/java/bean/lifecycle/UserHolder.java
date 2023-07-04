@@ -2,12 +2,11 @@ package bean.lifecycle;
 
 import com.fulu.domain.User;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanClassLoaderAware;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.*;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
+
+import javax.annotation.PostConstruct;
 
 /**
  * User Holder 类
@@ -15,7 +14,7 @@ import org.springframework.core.env.Environment;
  * @author <a href="mailto:fulu@witsky.cn">FuLu</a>
  * @since 2023/6/1 13:59
  */
-public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware , EnvironmentAware {
+public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoaderAware, EnvironmentAware, InitializingBean,SmartInitializingSingleton {
     private final User user;
 
     private Integer number;
@@ -46,6 +45,24 @@ public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoa
         this.number = number;
     }
 
+    @PostConstruct
+    public void init() {
+        // postProcessBeforeInitialization V3 -> V4
+        this.remark = "the userHolder v4";
+        System.out.println("init() : " + this.remark);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        this.remark = "the userHolder v5";
+        System.out.println("afterPropertiesSet() : " + this.remark);
+    }
+
+    public void initUserHolder(){
+        this.remark = "the userHolder v6";
+        System.out.println("init() : " + this.remark);
+    }
+
     @Override
     public String toString() {
         return "UserHolder{" +
@@ -72,7 +89,13 @@ public class UserHolder implements BeanNameAware, BeanFactoryAware, BeanClassLoa
 
     @Override
     public void setEnvironment(Environment environment) {
-       this.environment = environment;
+        this.environment = environment;
+    }
+
+    @Override
+    public void afterSingletonsInstantiated() {
+        this.remark = "the userHolder v8";
+        System.out.println("afterSingletonsInstantiated() : " + this.remark);
     }
 }
  

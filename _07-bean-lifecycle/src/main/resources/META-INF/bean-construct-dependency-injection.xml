@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="userHolder" class="bean.lifecycle.UserHolder" autowire="constructor">
+    <bean id="userHolder" class="bean.lifecycle.UserHolder" autowire="constructor" init-method="initUserHolder">
         <property name="number" value="1"/>
         <property name="remark" value="第一次set"/>
     </bean>

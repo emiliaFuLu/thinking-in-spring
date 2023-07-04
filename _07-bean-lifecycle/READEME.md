@@ -26,6 +26,27 @@
 - invokeAwareMethods 方法回调
   - BeanNameAware -> BeanClassLoaderAware -> BeanFactoryAware
 - invokeAwareInterfaces 接口回调
-  - ApplicationContextAwareProcessor 在application初始化或者BeanFactory初始化的时候，会动态的添加到BeanPostProcessor中，然后在BeanPostProcessor#postProcessBeforeInitialization()方法中调用invokeAwareInterfaces()方法，这个方法会调用所有的Aware接口，然后将ApplicationContext注入到对应的接口中去。
+  - ApplicationContextAwareProcessor 在application初始化或者BeanFactory初始化的时候，会将ApplicationContextAwareProcessor添加到BeanPostProcessor中，然后在BeanPostProcessor#postProcessBeforeInitialization()方法中调用invokeAwareInterfaces()方法，这个方法会调用所有的Aware接口，然后将ApplicationContext注入到对应的接口中去。
 - Spring 初始化前置
   - BeanPostProcessor#postProcessBeforeInitialization()
+- Spring 初始化
+  - @PostConstruct
+    - 在构造器之后，初始化之前调用，postProcessBeforeInitialization()中的方法回调函数执行
+  - InitializingBean#afterPropertiesSet()
+    - 在AbstractAutowiredCapableBeanFactory#invokeInitMethods()中调用
+  - 自定义初始化方法
+    - 在AbstractAutowireCapableBeanFactory#invokeCustomInitMethod()中调用
+  - Spring 初始化后置
+    - BeanPostProcessor#postProcessAfterInitialization()
+  - 初始化完成之后
+  - SmartInitializingSingleton#afterSingletonsInstantiated()
+    - 在AbstractApplicationContext#finishBeanFactoryInitialization()中调用
+- Spring 的销毁
+  - Spring 销毁后置
+    - BeanPostProcessor#postProcessBeforeDestruction()
+  - @PreDestroy
+    - 在AbstractAutowireCapableBeanFactory#destroyBean()中调用
+  - DisposableBean#destroy()
+    - 在AbstractAutowireCapableBeanFactory#destroyBean()中调用
+  - 自定义销毁方法
+    - 在AbstractAutowireCapableBeanFactory#destroyBean()中调用
